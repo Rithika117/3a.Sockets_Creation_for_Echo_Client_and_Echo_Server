@@ -1,5 +1,4 @@
 # 3a.CREATION FOR ECHO CLIENT AND ECHO SERVER USING TCP SOCKETS
-### Date:
 # AIM
 To write a python program for creating Echo Client and Echo Server using TCP
 Sockets Links.
@@ -10,51 +9,50 @@ Sockets Links.
  server .
 4. Send and receive the message using the send function in socket.
 ## PROGRAM
-#### Devloped by:RITHIKA K
-#### Register NUmber: 212224230230
-# SERVER 
-```python
-import socket
-
-HOST = '127.0.0.1'  
-PORT = 65432       
-
-with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-    s.bind((HOST, PORT))
-    s.listen()
-    conn, addr = s.accept()
-    with conn:
-        print('Connected by', addr)
-        while True:
-            data = conn.recv(1024)
-            if not data:
-                break
-            conn.sendall(data)
-
-```
-# CLIENT
-```python
-import socket
+SERVER:
+```import socket
 
 HOST = '127.0.0.1'  
 PORT = 65432        
 
-with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-    s.connect((HOST, PORT))
+with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
+    server_socket.bind((HOST, PORT))
+    server_socket.listen()
+
+    print(f"Server is listening on {HOST}:{PORT}")
     while True:
-        message = input("Enter message to send to server: ")
-        s.sendall(message.encode())
-        data = s.recv(1024)
-        print('Received', repr(data.decode()))
-
+        conn, addr = server_socket.accept()
+        with conn:
+            print(f"Connected by {addr}")
+            while True:
+                data = conn.recv(1024)
+                if not data:
+                    break
+                conn.sendall(data)
+                print(f"Echoed: {data.decode('utf-8')}")
 ```
-## OUTPUT
-# SERVER
-![image](https://github.com/user-attachments/assets/43d6648b-d504-4c8f-87ad-f3b9db6a30db)
+CLIENT:
+``` 
+import socket
 
+HOST = '127.0.0.1'  
+PORT = 65432  
 
-# CLIENT
-![image](https://github.com/user-attachments/assets/8148be39-7722-43e1-b8ac-d68d1ea9bfc9)
+with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
+    client_socket.connect((HOST, PORT))
+
+    message = 'Hello, Server!'
+    client_socket.sendall(message.encode('utf-8'))
+
+    data = client_socket.recv(1024)
+    print(f"Received echo: {data.decode('utf-8')}")
+```
+## OUPUT
+
+![image](https://github.com/user-attachments/assets/52f6bc0a-b2dc-4cd6-abe1-843c98c43a05)
+
+![image](https://github.com/user-attachments/assets/d2621874-2eea-40b0-a896-28c4fcc16903)
+
 
 ## RESULT
 Thus, the python program for creating Echo Client and Echo Server using TCP Sockets Links 
